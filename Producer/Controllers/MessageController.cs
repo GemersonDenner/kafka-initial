@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using Confluent.Kafka;
 using Confluent.SchemaRegistry;
@@ -21,6 +22,7 @@ public class MessageController : ControllerBase
     public MessageController(ILogger<MessageController> logger)
     {
         _logger = logger;
+        this.RegisterAvro();
     }
 
     [HttpPost("PostJson")]
@@ -82,4 +84,17 @@ public class MessageController : ControllerBase
             }
         }
     }
+
+    private async void RegisterAvro()
+    {
+        var addressRegisterAvro = "http://localhost:8081/subjects/AvroMessage/versions";
+        var avroContent = System.IO.File.ReadAllText("Model/avro-Message.avsc");
+        var requestData = new { schema = avroContent, schemaType = "AVRO" };
+
+        string json = JsonSerializer.Serialize(requestData);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var client = new HttpClient();
+        var response = await client.PostAsync(addressRegisterAvro, content);
+    }
+
 }
