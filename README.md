@@ -45,6 +45,7 @@ dotnet run
 ```
 - Now you can see the terminal listing the messages posted in each topic (Avro/Json)
 <br>
+
 - Console example - Json
 ```
 Message: {"Id":"b00b0000-00bb-0bbb-bbb0-00000b0bb000","Text":"test test test","CreatedDate":"2024-01-29T00:00:00"}
